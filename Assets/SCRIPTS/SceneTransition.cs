@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class SceneTransition : MonoBehaviour
 {
     public FadeScreen fadeScreen;
+    public int currentScene;
 
+    public void restartScene()
+    {
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(GoToSceneRoutine(currentScene));
+    }
     public void GoToScene(int sceneIndex)
     {
         StartCoroutine(GoToSceneRoutine(sceneIndex));
@@ -17,18 +24,9 @@ public class SceneTransition : MonoBehaviour
         fadeScreen.FadeOut();
         yield return new WaitForSeconds(fadeScreen.fadeDuration);
 
+        currentScene = sceneIndex;
         SceneManager.LoadScene(sceneIndex);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
